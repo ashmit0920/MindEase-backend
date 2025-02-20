@@ -1,3 +1,4 @@
+import joblib
 import numpy as np
 from sklearn.preprocessing import StandardScaler
 from sklearn.decomposition import PCA
@@ -5,7 +6,7 @@ from sklearn.cluster import KMeans
 from sklearn.ensemble import IsolationForest
 
 
-def assign_burnout_risk(new_student_data, scaler, pca, kmeans, iso_forest, min_score=1, max_score=10):
+def assign_burnout_risk(new_student_data, scaler, pca, kmeans, iso_forest, min_max_scaler, min_score=1, max_score=10):
     """
     Assigns a burnout risk score to a new student based on the trained clustering model.
 
@@ -34,27 +35,31 @@ def assign_burnout_risk(new_student_data, scaler, pca, kmeans, iso_forest, min_s
     distance = np.linalg.norm(new_pca - centroid)
 
     # Normalize the distance to a 1-10 scale
-    max_distance = np.max([np.linalg.norm(p - centroid)
-                          for p in pca.transform(scaler.transform(kmeans.cluster_centers_))])
-    risk_score = min_score + (distance / max_distance) * \
-        (max_score - min_score)
-    # Ensure it's within bounds
-    risk_score = np.clip(risk_score, min_score, max_score)
+    risk_score = min_max_scaler.transform(
+        [[distance]])[0][0]  # Ensure proper transformation
 
     # Check for anomalies using Isolation Forest
     anomaly_score = iso_forest.decision_function(new_scaled)
     if anomaly_score < 0:
         risk_score += 2  # Slightly increase risk for anomalies
 
-    return round(risk_score, 2)
+    # Ensure it's within bounds
+    risk_score = np.clip(risk_score, min_score, max_score)
+
+    return round(risk_score, 1)
 
 
-# Example usage (assuming models are already trained and loaded)
-new_student_data = [...]  # Replace with actual student questionnaire responses
+# Load the saved models
+scaler = joblib.load('./clustering/trained_models/scaler.pkl')
+pca = joblib.load('./clustering/trained_models/pca.pkl')
+min_max_scaler = joblib.load('./clustering/trained_models/min_max_scaler.pkl')
+kmeans = joblib.load('./clustering/trained_models/kmeans.pkl')
+iso_forest = joblib.load('./clustering/trained_models/iso_forest.pkl')
 
-scaler = StandardScaler()
-pca = PCA(n_components=2)
+
+# Replace with actual student questionnaire responses
+new_student_data = np.array([6, 7, 5, 6, 5, 6, 4, 7])  # 8 features
 
 risk_score = assign_burnout_risk(
-    new_student_data, scaler, pca, kmeans, iso_forest)
+    new_student_data, scaler, pca, kmeans, iso_forest, min_max_scaler)
 print(f"Burnout Risk Score: {risk_score}")

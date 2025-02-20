@@ -35,8 +35,9 @@ anomaly_scores = iso_forest.fit_predict(
 # Normalize cluster distances and anomaly scores to get a final risk score
 cluster_distances = np.linalg.norm(
     pca_data - kmeans.cluster_centers_[clusters], axis=1)
-risk_scores = MinMaxScaler(feature_range=(1, 10)).fit_transform(
-    cluster_distances.reshape(-1, 1))
+
+min_max_scaler = MinMaxScaler(feature_range=(1, 10))
+risk_scores = min_max_scaler.fit_transform(cluster_distances.reshape(-1, 1))
 
 # Penalize anomalies (increase their burnout risk score)
 df['Burnout_Risk_Score'] = risk_scores.flatten()
@@ -65,5 +66,6 @@ print(df[['Burnout_Level', 'Burnout_Risk_Score']].head(10))
 # Save trained models
 joblib.dump(scaler, './clustering/trained_models/scaler.pkl')
 joblib.dump(pca, './clustering/trained_models/pca.pkl')
+joblib.dump(min_max_scaler, './clustering/trained_models/min_max_scaler.pkl')
 joblib.dump(kmeans, './clustering/trained_models/kmeans.pkl')
 joblib.dump(iso_forest, './clustering/trained_models/iso_forest.pkl')
