@@ -50,16 +50,16 @@ def assign_burnout_risk(new_student_data, scaler, pca, kmeans, iso_forest, min_m
 
 
 # Load the saved models
-scaler = joblib.load('./clustering/trained_models/scaler.pkl')
-pca = joblib.load('./clustering/trained_models/pca.pkl')
-min_max_scaler = joblib.load('./clustering/trained_models/min_max_scaler.pkl')
-kmeans = joblib.load('./clustering/trained_models/kmeans.pkl')
-iso_forest = joblib.load('./clustering/trained_models/iso_forest.pkl')
+# scaler = joblib.load('./clustering/trained_models/scaler.pkl')
+# pca = joblib.load('./clustering/trained_models/pca.pkl')
+# min_max_scaler = joblib.load('./clustering/trained_models/min_max_scaler.pkl')
+# kmeans = joblib.load('./clustering/trained_models/kmeans.pkl')
+# iso_forest = joblib.load('./clustering/trained_models/iso_forest.pkl')
 
 
-# Replace with actual student questionnaire responses
-new_student_data = np.array([6, 7, 5, 6, 5, 6, 4, 7])  # 8 features
+# # Replace with actual student questionnaire responses
+# new_student_data = np.array([6, 7, 5, 6, 5, 6, 4, 7])  # 8 features
 
-risk_score = assign_burnout_risk(
-    new_student_data, scaler, pca, kmeans, iso_forest, min_max_scaler)
-print(f"Burnout Risk Score: {risk_score}")
+# risk_score = assign_burnout_risk(
+#     new_student_data, scaler, pca, kmeans, iso_forest, min_max_scaler)
+# print(f"Burnout Risk Score: {risk_score}")
