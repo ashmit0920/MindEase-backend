@@ -1,3 +1,4 @@
+import joblib
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -46,7 +47,7 @@ df.loc[anomaly_scores == -1, 'Burnout_Risk_Score'] += 2
 df['Burnout_Risk_Score'] = df['Burnout_Risk_Score'].clip(1, 10)
 
 # Rounding to 1 decimal
-df['Burnout_Risk_Score'] = np.round(df['Burnout_Risk_Score'], 1)
+df['Burnout_Risk_Score'] = round(df['Burnout_Risk_Score'], 1)
 
 # Step 6: Plot results
 plt.scatter(pca_data[:, 0], pca_data[:, 1],
@@ -59,3 +60,10 @@ plt.show()
 
 # Show sample results
 print(df[['Burnout_Level', 'Burnout_Risk_Score']].head(10))
+
+
+# Save trained models
+joblib.dump(scaler, './clustering/trained_models/scaler.pkl')
+joblib.dump(pca, './clustering/trained_models/pca.pkl')
+joblib.dump(kmeans, './clustering/trained_models/kmeans.pkl')
+joblib.dump(iso_forest, './clustering/trained_models/iso_forest.pkl')
