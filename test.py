@@ -1,9 +1,4 @@
-import joblib
 import numpy as np
-from sklearn.preprocessing import StandardScaler
-from sklearn.decomposition import PCA
-from sklearn.cluster import KMeans
-from sklearn.ensemble import IsolationForest
 
 
 def assign_burnout_risk(new_student_data, scaler, pca, kmeans, iso_forest, min_max_scaler, min_score=1, max_score=10):
