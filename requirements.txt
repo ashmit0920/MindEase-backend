@@ -1,7 +1,8 @@
-numpy
-pandas
-matplotlib
-scikit-learn
-joblib
-fastapi
-pydantic
+numpy==1.25.2
+pandas==2.2.2
+matplotlib==3.9.0
+scikit-learn==1.2.2
+joblib==1.4.2
+fastapi==0.111.1
+pydantic==2.10.5
+uvicorn==0.30.6

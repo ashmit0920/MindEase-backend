@@ -6,7 +6,8 @@
 - [x] Create test environment for new data
 - [x] Create FastAPI endpoint
 - [ ] Migrate calendar.py and gemini.py from MindEase/utils
-- [ ] Containerize the application
+- [x] Containerize the application
+- [ ] Train the final model
 - [ ] Full pipeline, if required (docker compose)
 - [ ] Deploy and inference through cloud
 - [ ] Integration with the actual app
